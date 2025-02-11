@@ -1,23 +1,38 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addItem } from '../../redux/slices/cartSlice';
 
-function PizzaBlock(props) {
+function PizzaBlock({id, title, price, imageUrl, sizes, types, rating}) {
+  const dispatch = useDispatch();
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
   const typesName = ['тонкое', 'традиционное'];
+
+
+  const onClickAdd = () => {
+    const item = {
+      id,
+      title,
+      price,
+      type: activeType,
+      size: activeSize,
+    };
+    dispatch(addItem(item));
+  }
 
   return (
     <div className='pizza-block-wrapper'>
       <div className="pizza-block">
         <img
           className="pizza-block__image"
-          // src={props.imageUrl}
+          // src={imageUrl}
           src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
           alt="Pizza img"
         />
-        <h4 className="pizza-block__title">{props.title}</h4>
+        <h4 className="pizza-block__title">{title}</h4>
         <div className="pizza-block__selector">
           <ul>
-            {props.types.map((value) => (
+            {types.map((value) => (
               <li
                 key={value}
                 onClick={() => setActiveType(value)}
@@ -28,7 +43,7 @@ function PizzaBlock(props) {
             ))}
           </ul>
           <ul>
-            {props.sizes.map((size, i) => (
+            {sizes.map((size, i) => (
               <li
                 key={i}
                 onClick={() => setActiveSize(i)}
@@ -40,8 +55,8 @@ function PizzaBlock(props) {
           </ul>
         </div>
         <div className="pizza-block__bottom">
-          <div className="pizza-block__price">от {props.price} ₽</div>
-          <button className="button button--outline button--add">
+          <div className="pizza-block__price">от {price} ₽</div>
+          <button onClick={onClickAdd} className="button button--outline button--add">
             <svg
               width="12"
               height="12"
