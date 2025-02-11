@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSort } from '../redux/slices/filterSlice';
 
 function Sort() {
   const dispatch = useDispatch();
-  const sorts = useSelector(state => state.filter.sort)
+  const sorts = useSelector((state) => state.filter.sort);
+  const sortRef = React.useRef();
 
   const [open, setOpen] = React.useState(false);
   const sort = [
@@ -16,14 +17,13 @@ function Sort() {
     { name: 'алфавиту ↑', sortProperty: 'title' },
   ];
 
-
   const onClose = (obj) => {
-    dispatch(setSort(obj))
+    dispatch(setSort(obj));
     setOpen(false);
   };
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
@@ -43,9 +43,10 @@ function Sort() {
         <div className="sort__popup">
           <ul>
             {sort.map((obj, i) => (
-              <li key={i} 
-              onClick={() => onClose(obj)} 
-              className={sorts.sortProperty === obj.sortProperty   ? 'active' : ''}>
+              <li
+                key={i}
+                onClick={() => onClose(obj)}
+                className={sorts.sortProperty === obj.sortProperty ? 'active' : ''}>
                 {obj.name}
               </li>
             ))}
