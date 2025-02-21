@@ -6,8 +6,13 @@ import NotFound from './pages/NotFound';
 import { Route, Routes } from 'react-router-dom';
 import Cart from './pages/Cart';
 
+interface SearchContextType {
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+}
 
-export const SearchContext = React.createContext('');
+// Создайте контекст с правильным типом
+export const SearchContext = React.createContext<SearchContextType | undefined>(undefined);
 
 function App() {
   const [searchValue, setSearchValue] = React.useState('');

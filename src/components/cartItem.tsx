@@ -1,37 +1,56 @@
 import React from 'react';
+import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
 
-const CartItem = ({id, title, type, price, size, count, imageUrl}) => {
-    const dispatch = useDispatch()
+type CartItemProps = {
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  size: number;
+  count: number;
+  imageUrl: string;
+};
 
-    const onClickPlus = () => {
-        dispatch(addItem({
-            id, 
-        }))
-    }
-    const onClickMinus = () => {
-        dispatch(minusItem(id))
-    }
-    const onClickRemove = () => {
-        dispatch(removeItem(id))
-    }
-    
+const CartItem: React.FC<CartItemProps> = ({ id, title, type, price, size, count, imageUrl }) => {
+  const dispatch = useDispatch();
+
+  const onClickPlus = () => {
+    dispatch(
+      addItem({
+        id,
+      }),
+    );
+  };
+  const onClickMinus = () => {
+    dispatch(minusItem(id));
+  };
+  const onClickRemove = () => {
+    dispatch(removeItem(id));
+  };
+
   return (
-    <div class="cart__item">
-      <div class="cart__item-img">
+    <div className="cart__item">
+      <div className="cart__item-img">
         <img
-          class="pizza-block__image"
+          className="pizza-block__image"
           src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
           alt="Pizza"
         />
       </div>
-      <div class="cart__item-info">
+      <div className="cart__item-info">
         <h3>{title}</h3>
-        <p>{type}, {size} см.</p>
+        <p>
+          {type}, {size} см.
+        </p>
       </div>
-      <div class="cart__item-count">
-        <div onClick={onClickMinus} class="button button--outline button--circle cart__item-count-minus">
+      <div className="cart__item-count">
+        <button
+        disabled={count == 1}
+          onClick={onClickMinus}
+          className={clsx("button button--outline button--circle cart__item-count-minus", {'cart__item-count-minus--disabled': 
+          count == 1})}>
           <svg
             width="10"
             height="10"
@@ -47,9 +66,11 @@ const CartItem = ({id, title, type, price, size, count, imageUrl}) => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
         <b>{count}</b>
-        <div onClick={onClickPlus} class="button button--outline button--circle cart__item-count-plus">
+        <button
+          onClick={onClickPlus}
+          className="button button--outline button--circle cart__item-count-plus">
           <svg
             width="10"
             height="10"
@@ -65,13 +86,13 @@ const CartItem = ({id, title, type, price, size, count, imageUrl}) => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
       </div>
-      <div class="cart__item-price">
+      <div className="cart__item-price">
         <b>{price * count} ₽</b>
       </div>
-      <div class="cart__item-remove">
-        <div onClick={onClickRemove} class="button button--outline button--circle">
+      <div className="cart__item-remove">
+        <div onClick={onClickRemove} className="button button--outline button--circle">
           <svg
             width="10"
             height="10"

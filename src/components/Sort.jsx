@@ -7,6 +7,12 @@ function Sort() {
   const sorts = useSelector(state => state.filter.sort)
 
   const [open, setOpen] = React.useState(false);
+
+  // type SortItem = {
+  //   name: string;
+  //   sortProperty: string;
+  // };
+
   const sort = [
     { name: 'популярности ↓', sortProperty: 'rating&order=desc' },
     { name: 'популярности ↑', sortProperty: 'rating&order=asc' },

@@ -1,13 +1,36 @@
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import Search from './Search/index';
 import { useSelector } from 'react-redux';
-
+import React from 'react';
 
 function Header() {
-  const {items, totalPrice} = useSelector(state => state.cart)
+  interface CartItem {
+    id: number;
+    count: number;
+    // другие поля, если есть
+  }
 
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0)
+  interface CartState {
+    items: CartItem[];
+    totalPrice: number;
+  }
 
+  interface RootState {
+    cart: CartState;
+    // другие состояния, если есть
+  }
+
+  const { items, totalPrice } = useSelector((state: RootState) => state.cart);
+  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
+  const isMounted = React.useRef(false);
+
+  React.useEffect(() => {
+    if ((isMounted.current = true)) {
+      const json = JSON.stringify(items);
+      localStorage.setItem('cart', json);
+    }
+    isMounted.current = true;
+  }, [items]);
 
   return (
     <div className="header">
